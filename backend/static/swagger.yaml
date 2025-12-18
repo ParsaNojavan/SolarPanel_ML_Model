@@ -1,0 +1,166 @@
+openapi: 3.0.3
+info:
+  title: Solar Panel ML API
+  version: 1.0.0
+  description: API for predicting, analyzing, and training a solar panel ML system
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /train:
+    post:
+      summary: Train the ML system with a CSV or XLSX file
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Training completed
+          content:
+            application/json:
+              example:
+                status: training completed
+                results:
+                  regression_mse: 12345.67
+                  classification_accuracy: 0.849
+                  clusters:
+                    0: 1583
+                    1: 1564
+                    2: 1853
+                  anomalies_detected: 4811
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /predict:
+    post:
+      summary: Predict solar radiation and sunny probability
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Hour:
+                  type: integer
+                  example: 14
+                Month:
+                  type: integer
+                  example: 12
+                TempOut:
+                  type: number
+                  example: 10
+                OutHum:
+                  type: number
+                  example: 80
+                WindSpeed:
+                  type: number
+                  example: 5
+                Bar:
+                  type: number
+                  example: 1012
+      responses:
+        '200':
+          description: Prediction result
+          content:
+            application/json:
+              example:
+                solar_radiation: 150.45
+                sunny_probability: 0.823
+        '400':
+          description: Model not trained
+        '500':
+          description: Internal server error
+
+  /analyze:
+    post:
+      summary: Analyze a single point (cluster + anomaly)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Hour:
+                  type: integer
+                  example: 14
+                Month:
+                  type: integer
+                  example: 12
+                TempOut:
+                  type: number
+                  example: 10
+                OutHum:
+                  type: number
+                  example: 80
+                WindSpeed:
+                  type: number
+                  example: 5
+                Bar:
+                  type: number
+                  example: 1012
+      responses:
+        '200':
+          description: Analysis result
+          content:
+            application/json:
+              example:
+                cluster: 1
+                is_anomaly: 0
+        '400':
+          description: Model not trained
+        '500':
+          description: Internal server error
+
+  /full_analysis:
+    post:
+      summary: Full analysis combining prediction and clustering/anomaly
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Hour:
+                  type: integer
+                  example: 14
+                Month:
+                  type: integer
+                  example: 12
+                TempOut:
+                  type: number
+                  example: 10
+                OutHum:
+                  type: number
+                  example: 80
+                WindSpeed:
+                  type: number
+                  example: 5
+                Bar:
+                  type: number
+                  example: 1012
+      responses:
+        '200':
+          description: Full analysis result
+          content:
+            application/json:
+              example:
+                solar_radiation: 150.45
+                sunny_probability: 0.823
+                cluster: 1
+                is_anomaly: 0
+        '400':
+          description: Model not trained
+        '500':
+          description: Internal server error
