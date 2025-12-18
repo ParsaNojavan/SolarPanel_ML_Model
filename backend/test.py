@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from ml.solar_model import SolarMLSystem
 
-API_KEY = "2694ef9b0fb54f8b810221511251312"
+API_KEY = ""
 LOCATION = "Tehran"  # یا هر شهر
 
 # نمونه گرفتن داده‌های آب و هوا

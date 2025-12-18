@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Sun, CloudRain, Cloud, AlertTriangle, CheckCircle, XCircle } from 'lucide-react'
 
-const WEATHER_API_KEY = '2694ef9b0fb54f8b810221511251312'
+const WEATHER_API_KEY = ''
 
 async function fetchWeather() {
   const res = await fetch(
